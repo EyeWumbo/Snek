@@ -28,26 +28,26 @@ class App extends Component {
     const gameSpeed = parseInt(this.getParameterByName("gameSpeed")) || 300;
     return (
       <div className="item-container">
+        <div className="col x-center">
         <h2>SNEK</h2>
-        <div className="row">
-          <input type="number" min="5" ref="boardSize" />
-          <input type="number" min="200" ref="gameSpeed" step="100" />
-          <button onClick={() => {
-            window.location = `/?boardSize=${this.refs.boardSize.value || 5}&gameSpeed=${this.refs.gameSpeed.value || 200}`
-          }}>
-            Set Up Game
-          </button>
+          <input type="number" min="5" ref="boardSize" placeholder={"Board Size"} />
+          <input type="number" min="200" ref="gameSpeed" step="100" placeholder={"Game Speed"} />
+          <div className="row" style={{marginBottom: 20}}>
+            <button style={{marginRight: 10}} onClick={() => {
+              window.location = `/?boardSize=${this.refs.boardSize.value || 5}&gameSpeed=${this.refs.gameSpeed.value || 200}`
+            }}>
+              Set Up Game
+            </button>
+            {
+              this.state.over ? (
+                <button onClick={(e) => { e.preventDefault(); this.refs.game.resetGame() }}>Reset</button>
+              ) : (
+                <button onClick={(e) => { e.preventDefault(); this.refs.game.startGame() }}>Start</button>
+              )
+            }
+          </div>
         </div>
-        <div style={{marginBottom: 20}}>
-          {
-            this.state.over ? (
-              <a href="#" onClick={(e) => { e.preventDefault(); this.refs.game.resetGame() }}>Reset</a>
-            ) : (
-              <a href="#" onClick={(e) => { e.preventDefault(); this.refs.game.startGame() }}>Start</a>
-            )
-          }
 
-        </div>
         <SnakeContainer ref="game" boardSize={boardSize} gameSpeed={gameSpeed} onDone={() => { this.setState({ over: true }) }} />
       </div>
     );
